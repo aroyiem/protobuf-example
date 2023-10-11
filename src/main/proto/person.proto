@@ -1,6 +1,40 @@
 syntax = "proto3";
 
+import "common/address.proto";
+import "common/car.proto";
+import "google/protobuf/wrappers.proto";
+
+option java_multiple_files = true;
+option java_package = "com.roy.model";
+
+// there is no null in protobuf
+
+/*
+    This is my person proto file
+ */
 message Person {
-  string name = 1;
-  int32 age = 2;
+  // name field
+  string name = 1; // number 1 is tag
+  // age field
+  //int32 age = 2;
+  google.protobuf.Int32Value age = 2;
+  common.Address address = 3;
+  repeated common.Car car = 4;
 }
+
+/**
+
+Object mapper(json array) treats object like below
+
+"name": "sam",
+"age": 10
+
+protocol buffer treats objects like below which reduces the size of the byte array
+It uses tag for mapping teh object value, rather than the name
+1=sam
+2=10
+
+
+1 - 15 - 1 byte (use this tag for frequently used fields)
+16 - 2047 - 2 bytes (use this field for not frequently used)
+ */
